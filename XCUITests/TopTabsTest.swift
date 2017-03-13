@@ -63,7 +63,8 @@ class TopTabsTest: BaseTestCase {
         waitforExistence(app.webViews.links.staticTexts["More information..."])
         app.webViews.links.staticTexts["More information..."].press(forDuration: 5)
         app.buttons["Open in New Tab"].tap()
-        sleep(2)
+        waitforExistence(app.buttons["Switch"])
+        app.buttons["Switch"].tap()
 
         // Open tab tray to check that both tabs are there
         navigator.goto(TabTray)
@@ -104,7 +105,6 @@ class TopTabsTest: BaseTestCase {
         XCTAssertEqual(numTabsOpen, 1, "After removing one tab there should remain only one")
         waitforNoExistence(app.collectionViews.cells[urlLabel])
         waitforExistence(app.collectionViews.cells["home"])
-
     }
 
     private func openSeveralTabs (numberTabs: Int) {
