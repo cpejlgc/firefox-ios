@@ -168,12 +168,14 @@ private let noopNodeVisitor: NodeVisitor = { _ in }
 
 extension ScreenGraphNode {
     fileprivate func waitForElement(_ element: XCUIElement, withTest xcTest: XCTestCase, handler: @escaping XCWaitCompletionHandler) {
-        if element.exists {
+        if element.isEnabled && element.exists {
             return
         }
         // TODO I'm not satisfied that this is working as expected.
+        xcTest.expectation(for: enabledPredicate,
+                            evaluatedWith: element, handler: nil)
         xcTest.expectation(for: existsPredicate,
-                                       evaluatedWith: element, handler: nil)
+                            evaluatedWith: element, handler: nil)
         xcTest.waitForExpectations(timeout: 5, handler: handler)
     }
 }
